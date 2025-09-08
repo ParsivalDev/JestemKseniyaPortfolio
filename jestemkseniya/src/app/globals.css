@@ -1,93 +1,207 @@
+
 @import "tailwindcss";
 
-/* --- GLOBAL / RESET --- */
+/* Global */
 html, body { min-height: 100vh; }
+/* fullpage panels stack */
+.fp-panel { contain: layout paint; }
 
-/* --- TŁO GRADIENT --- */
+/* Background gradient */
 .gradient-bg {
   background:
-    radial-gradient(1200px 800px at 10% 10%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1000px 700px at 90% 20%, rgba(255,255,255,0.25), transparent),
-    linear-gradient(120deg, #fde1ef 0%, #d8ccff 45%, #c9ecff 100%);
+    radial-gradient(1400px 900px at 12% 8%, rgba(255,255,255,0.36), transparent),
+    radial-gradient(1200px 800px at 88% 18%, rgba(255,255,255,0.28), transparent),
+    linear-gradient(180deg, #fde7f1 0%, #f3e9ff 45%, #e9f4ff 100%);
 }
 
-/* --- GLASSMORPHISM --- */
+/* Glass cards */
 .glass {
   background: rgba(255,255,255,0.26);
   border: 1px solid rgba(255,255,255,0.45);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 20px 60px rgba(22, 26, 44, 0.12);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-radius: 24px;
+  border-radius: 22px;
 }
 .glass-strong {
   background: rgba(255,255,255,0.34);
-  border: 1px solid rgba(255,255,255,0.55);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 24px 70px rgba(22, 26, 44, 0.14);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
-  border-radius: 24px;
+  border-radius: 22px;
 }
 
-/* --- OKRĄGŁE PRZYCISKI (NAV DOTS) --- */
+/* Pretty text gradient */
+.text-gradient {
+  background: linear-gradient(90deg, #b23ad3 0%, #7a55f6 50%, #5aa6ff 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-size: 200% 100%;
+  animation: gradient-x 8s ease-in-out infinite;
+}
+
+@keyframes gradient-x {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Round dot nav buttons */
 .dot {
   width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 9999px;
-  cursor: pointer;
+  cursor: pointer; outline: none;
   background: rgba(255,255,255,0.26);
   border: 1px solid rgba(255,255,255,0.45);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  transition: transform .15s ease;
-  outline: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  transition: transform .15s ease, box-shadow .15s ease;
 }
-.dot:hover { transform: scale(1.05); }
-.dot:active, .dot:focus-visible { transform: scale(0.95); }
+.dot:hover { transform: translateY(-1px); box-shadow: 0 14px 34px rgba(0,0,0,0.14); }
+.dot:active, .dot:focus-visible { transform: translateY(0) scale(0.97); }
 
-/* --- TIPOGRAFIA POD BLOG (prosta) --- */
-.prose-base h1 { font-size: 1.875rem; line-height: 2.25rem; font-weight: 600; margin-bottom: .75rem; }
-.prose-base h2 { font-size: 1.5rem; line-height: 2rem; font-weight: 600; margin: 1.25rem 0 .5rem; }
-.prose-base p  { line-height: 1.75; margin-bottom: .75rem; }
+/* Blog prose */
+.prose-base h1 { font-size: 1.875rem; line-height: 2.25rem; font-weight: 700; margin-bottom: .75rem; }
+.prose-base h2 { font-size: 1.5rem; line-height: 2rem; font-weight: 700; margin: 1.25rem 0 .5rem; }
+.prose-base p  { line-height: 1.75; margin-bottom: .75rem; color: rgba(17,24,39,.85); }
 .prose-base ul { list-style: disc; padding-left: 1.25rem; margin: .5rem 0 .75rem; }
 .prose-base a  { text-decoration: underline; }
 
-/* --- IPHONE FRAME --- */
+/* iPhone frame */
 .phone-shell {
-  position: relative;
-  width: min(380px, 86vw);
+  position: relative; width: min(380px, 86vw);
   height: calc(min(380px, 86vw) * 2.0);
-  border-radius: 2rem;
-  padding: 14px;
+  border-radius: 2rem; padding: 14px;
   background: rgba(255,255,255,0.18);
   border: 1px solid rgba(255,255,255,0.45);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.16);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
 }
-.phone-notch::before {
-  content: "";
-  position: absolute;
-  top: 10px; left: 50%; transform: translateX(-50%);
-  width: 40%; height: 18px; border-radius: 10px;
-  background: rgba(0,0,0,0.6);
-}
+.phone-notch::before { content: ""; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 40%; height: 18px; border-radius: 10px; background: rgba(0,0,0,0.6); }
 .phone-screen { width: 100%; height: 100%; border-radius: 1.2rem; overflow: hidden; background: #000; }
 
-/* --- KARUZELA POZIOMA --- */
-.carousel {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 100%;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+/* Horizontal carousel */
+.carousel { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.carousel::-webkit-scrollbar{ display:none; }
+.slide{ scroll-snap-align:center; display:flex; align-items:center; justify-content:center; padding:1rem; }
+
+/* === Two-up carousel === */
+.carousel.two { grid-auto-columns: 50%; }
+.carousel.two .slide { padding: .5rem; }               /* ciaśniej, żeby 2 się mieściły */
+.carousel.two .phone-wrap { width: min(100%, 360px); margin: 0 auto; }
+/* dzięki temu telefon w slajdzie wypełnia kolumnę, ale nie przekracza 360px */
+
+
+/* Fancy bits */
+.badge-pill { display:inline-flex; align-items:center; gap:.5rem; height:38px; padding:0 .9rem; border-radius:9999px; background:rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 30px rgba(22,26,44,0.08); transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease; }
+.badge-pink { background: linear-gradient(180deg, #ffe3ee 0%, #ffd7f0 100%); border-color: rgba(255,255,255,0.8); }
+/* New pill variants for section nav */
+.badge-blue { background: linear-gradient(180deg, #ddeaff 0%, #cfe4ff 100%); border-color: rgba(255,255,255,0.85); }
+.badge-green { background: linear-gradient(180deg, #e1ffe8 0%, #d2f9e0 100%); border-color: rgba(255,255,255,0.85); }
+.badge-purple { background: linear-gradient(180deg, #eee1ff 0%, #e2d6ff 100%); border-color: rgba(255,255,255,0.85); }
+.badge-pill:hover { transform: translateY(-1px); box-shadow: 0 16px 34px rgba(22,26,44,0.12); }
+.badge-pill:active { transform: translateY(0) scale(0.98); }
+.badge-pill:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(123,99,255,.25), 0 16px 34px rgba(22,26,44,0.12); }
+.btn-gradient { display:inline-flex; align-items:center; justify-content:center; padding:.9rem 1.2rem; border-radius:14px; background: linear-gradient(90deg,#f38cc9,#7b63ff); color:#fff; box-shadow: 0 14px 30px rgba(123,99,255,.25); }
+.btn-outline { display:inline-flex; align-items:center; justify-content:center; padding:.9rem 1.2rem; border-radius:14px; background: rgba(255,255,255,.6); border:1px solid rgba(255,255,255,.9); }
+.icon-bubble { width:44px; height:44px; display:flex; align-items:center; justify-content:center; border-radius:14px; background: linear-gradient(160deg,#ffe1ec,#e7d1ff); box-shadow: inset 0 1px 0 #fff8, 0 10px 24px rgba(22,26,44,.08); }
+.stat-card { background: rgba(255,255,255,0.8); border:1px solid rgba(255,255,255,0.9); border-radius:18px; padding:22px; box-shadow: 0 20px 50px rgba(22,26,44,.08); transition: transform .18s ease, box-shadow .18s ease; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 24px 60px rgba(22,26,44,.12); }
+.stat-number { font-weight:800; background: linear-gradient(90deg,#ff4fa3,#6d6bff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.header-card { background: rgba(255,255,255,0.9); border:1px solid rgba(255,255,255,1); border-radius:18px; padding:24px; box-shadow: 0 20px 50px rgba(22,26,44,.08); position: relative; overflow: hidden; }
+.header-card::after{ content:''; position:absolute; inset:-30%; background: radial-gradient(40% 40% at 30% 20%, rgba(123,99,255,.12), transparent), radial-gradient(40% 40% at 70% 80%, rgba(255,105,180,.12), transparent); filter: blur(20px); pointer-events:none; }
+.cta-card { background: linear-gradient(135deg,#ffd1e7 0%, #e0d8ff 60%, #cfe9ff 100%); border:1px solid rgba(255,255,255,0.9); border-radius:18px; padding:24px; box-shadow: 0 24px 60px rgba(22,26,44,.10); }
+
+/* External link icon */
+.external::after { content:"↗"; margin-left:.35rem; font-size:.9em; opacity:.6; }
+
+/* === PHONE (ramka: /public/images/iphone-frame-1080x1920.png) === */
+.phone-wrap { width: clamp(260px, 30vw, 360px); } /* rozmiar telefonu */
+
+.phone-inner{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1080 / 1920;   /* PROPORCJE ramki */
+  overflow: visible;
 }
-.carousel::-webkit-scrollbar { display: none; }
-.slide {
-  scroll-snap-align: center;
-  display: flex; align-items: center; justify-content: center;
-  padding: 1rem;
+
+/* Insety ekranu (startowe pod 1080×1920) */
+:root{
+  --ph-left:  0%;
+  --ph-right:  0%;
+  --ph-top:    0%;
+  --ph-bottom: 0%;
+  --ph-radius: 58px;
+  --ph-ox: 50%;
+  --ph-oy: 55%;
+
+  /* NOWE: delikatne zmniejszenie wideo */
+  --ph-scale-x: 0.985;   /* 1.00 = bez zmian; 0.98 = minimalnie mniejsze */
+  --ph-scale-y: 0.985;   /* możesz dać inną wartość dla X/Y, jeśli trzeba */
+
+  /* opcjonalnie mikropozycja w pikselach, gdyby trzeba „przesunąć” kadr */
+  --ph-shift-x: 0px;
+  --ph-shift-y: 0px;
 }
+
+/* Wideo w „dziurze” ekranu */
+.phone-video{
+  position: absolute;
+  left: var(--ph-left); right: var(--ph-right);
+  top: var(--ph-top);   bottom: var(--ph-bottom);
+  border-radius: var(--ph-radius);
+  object-fit: cover;
+  object-position: var(--ph-ox) var(--ph-oy);
+  background:#000;
+
+  /* klucz: zmniejszamy wyłącznie wideo, bez zmiany insetów */
+  transform: translate(var(--ph-shift-x), var(--ph-shift-y))
+             scale(var(--ph-scale-x), var(--ph-scale-y));
+  transform-origin: center center;
+}
+/* Ramka PNG na wierzchu */
+.phone-overlay{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 18px 40px rgba(22,26,44,.25));
+}
+
+/* Debug (na chwilę):
+.phone-video { box-shadow: inset 0 0 0 2px red; }
+*/
+
+/* ==== Mobile tuning (<=640px) ==== */
+@media (max-width: 640px) {
+  .icon-bubble { width: 38px; height: 38px; border-radius: 12px; }
+  .stat-card { padding: 16px; border-radius: 16px; }
+  .header-card { padding: 16px; border-radius: 16px; }
+  .cta-card { padding: 16px; border-radius: 16px; }
+  .btn-gradient { padding: .7rem 1rem; border-radius: 12px; }
+  .btn-outline { padding: .7rem 1rem; border-radius: 12px; }
+  .badge-pill { height: 40px; padding: 0 .8rem; }
+}
+
+/* Decorative section orbs (subtle) */
+.section-orbs { position:absolute; inset:-10px; z-index:0; pointer-events:none; opacity:.7; }
+.section-orbs::before{ content:''; position:absolute; inset:0; background:
+  radial-gradient(320px 200px at 20% 10%, rgba(255,105,180,.18), transparent 60%),
+  radial-gradient(260px 180px at 80% 20%, rgba(123,99,255,.18), transparent 60%),
+  radial-gradient(300px 200px at 50% 90%, rgba(90,166,255,.16), transparent 60%);
+  filter: blur(18px);}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient { animation: none; }
+}
+
+/* ===== Chips (for Experience) ===== */
+.chip{ display:inline-flex; align-items:center; gap:.35rem; padding:.35rem .7rem; border-radius:9999px; border:1px solid rgba(255,255,255,.95); background:rgba(255,255,255,.92); box-shadow: 0 6px 16px rgba(22,26,44,.06); font-size:.85rem; }
+.chip-blue{ background: linear-gradient(180deg,#eef5ff,#e7f0ff); }
+.chip-green{ background: linear-gradient(180deg,#e8fff0,#dcffe9); }
+.chip-purple{ background: linear-gradient(180deg,#f1eaff,#e9e1ff); }
+.chip-pink{ background: linear-gradient(180deg,#ffe9f3,#ffe1f1); }
+.chip:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(22,26,44,.10); }

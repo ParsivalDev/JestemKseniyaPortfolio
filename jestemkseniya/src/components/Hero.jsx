@@ -3,19 +3,27 @@
 // =========================
 export default function Hero() {
   return (
-    <div className="flex flex-col items-center text-center gap-6">
-      <div className="relative w-36 h-36 rounded-full overflow-hidden glass ring-1 ring-white/60">
-        {/* TODO: Podmień obrazek na /public/images/kseniya.jpg */}
-        <img src="/images/kseniya.jpg" alt="Kseniya" className="object-cover w-full h-full"/>
+    <div className="flex flex-col items-center">
+      <div className="glass max-w-3xl w-full mx-auto px-6 md:px-8 py-8 md:py-12 text-center">
+        <div className="mx-auto w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-3 md:ring-4 ring-pink-300 shadow-xl -mt-10 md:-mt-16 mb-4">
+          <img src="/images/kseniya.jpg" alt="Kseniya" className="w-full h-full object-cover"/>
+        </div>
+        <h1 className="text-3xl md:text-5xl font-extrabold mb-2 md:mb-3"><span className="text-gradient">Hej, jestem Kseniya! Współpracujemy?</span></h1>
+        <p className="text-sm md:text-lg opacity-80">Twórczyni UGC • Montażystka wideo • Właścicielka agencji</p>
+        <div className="mt-4 md:mt-5 flex items-center justify-center gap-2">
+          <a href="https://tiktok.com/@jestemkseniya" target="_blank" rel="noreferrer" className="badge-pill badge-purple" aria-label="TikTok">
+            <span className="inline-block align-middle">🎵</span>
+            <span>TikTok</span>
+          </a>
+          <a href="https://instagram.com/jestemkseniya" target="_blank" rel="noreferrer" className="badge-pill badge-blue" aria-label="Instagram">
+            <span className="inline-block align-middle">📸</span>
+            <span>Instagram</span>
+          </a>
+        </div>
+        <p className="mt-5 md:mt-6 max-w-2xl mx-auto opacity-80 text-sm md:text-base">
+          Pomagam markom rosnąć dzięki autentycznym treściom i przemyślanym strategiom wideo. Stwórzmy razem coś wyjątkowego.
+        </p>
       </div>
-      <h1 className="text-4xl md:text-5xl font-semibold">Hej! Jestem Kseniya.</h1>
-      <p className="text-lg md:text-xl opacity-80">UGC Creator • Video Editor • Marketing Agency Owner</p>
-      <p className="max-w-2xl opacity-80">
-        Tworzę autentyczne treści UGC i montuję filmy, które sprzedają. Z Kyusha Agency łączę strategię i produkcję end‑to‑end.
-      </p>
-      <a href="#portfolio" className="mt-2 inline-block px-5 py-3 rounded-full glass hover:scale-105 transition">
-        Zobacz portfolio
-      </a>
     </div>
   )
 }

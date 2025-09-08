@@ -4,11 +4,11 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'JestemKseniya.com – UGC, Video, Kyusha Agency',
-  description: 'One‑page portfolio + blog MDX influencerki Kseniya. UGC Creator, Video Editor, właścicielka Kyusha Agency.',
+  title: 'JestemKseniya.com – UGC, Wideo, Kseniya Agency',
+  description: 'Portfolio one‑page + blog MDX influencerki Kseniya. Twórczyni UGC, montażystka wideo, właścicielka Kseniya Agency.',
   openGraph: {
-    title: 'JestemKseniya.com – UGC, Video, Kyusha Agency',
-    description: 'One‑page portfolio + blog MDX influencerki Kseniya.',
+    title: 'JestemKseniya.com – UGC, Wideo, Kseniya Agency',
+    description: 'Portfolio one‑page + blog MDX influencerki Kseniya.',
     url: 'https://jestemkseniya.com',
     images: ['/og.jpg'],
   },
