@@ -1,7 +1,7 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-const forwardDir = ['down', 'left', 'up'] // 0->1 down, 1->2 left, 2->3 up
+const forwardDir = ['down', 'left', 'up']
 
 function getDirection(from, to) {
   if (to === from) return 'none'
@@ -9,7 +9,6 @@ function getDirection(from, to) {
   const step = forward ? from : to
   const dir = forwardDir[Math.min(step, forwardDir.length - 1)]
   if (!forward) {
-    // invert
     if (dir === 'down') return 'up'
     if (dir === 'up') return 'down'
     if (dir === 'left') return 'right'
@@ -22,18 +21,18 @@ export default function SectionStack({ ids, children }) {
   const animatingRef = useRef(false)
   const [current, setCurrent] = useState(0)
 
-  // Initialize panel base styles
   useEffect(() => {
     panelsRef.current.forEach((el, i) => {
       if (!el) return
       Object.assign(el.style, {
         position: 'absolute', inset: '0',
-        willChange: 'transform, opacity',
+        willChange: 'transform, opacity, filter',
         transition: 'none',
         pointerEvents: i === current ? 'auto' : 'none',
         visibility: i === current ? 'visible' : 'hidden',
         transform: 'translate3d(0,0,0)',
         opacity: '1',
+        filter: 'none',
       })
     })
   }, [])
@@ -64,58 +63,55 @@ export default function SectionStack({ ids, children }) {
     if (!fromEl || !toEl) return
 
     animatingRef.current = true
-    // prep
     Object.assign(fromEl.style, { zIndex: '10', transition: 'none', visibility: 'visible', pointerEvents: 'none' })
     Object.assign(toEl.style, { zIndex: '15', transition: 'none', visibility: 'visible', pointerEvents: 'none', opacity: '1' })
 
     const enterStart = {
-      down: 'translate3d(0,100%,0) scale(1.02)',
-      up: 'translate3d(0,-100%,0) scale(1.02)',
-      left: 'translate3d(100%,0,0) scale(1.02)',
-      right: 'translate3d(-100%,0,0) scale(1.02)'
+      down: 'translate3d(0,100%,0) scale(1.06)',
+      up: 'translate3d(0,-100%,0) scale(1.06)',
+      left: 'translate3d(100%,0,0) scale(1.06)',
+      right: 'translate3d(-100%,0,0) scale(1.06)'
     }[dir]
 
     const leaveEnd = {
-      down: 'translate3d(0,-10%,0) scale(0.98)',
-      up: 'translate3d(0,10%,0) scale(0.98)',
-      left: 'translate3d(-10%,0,0) scale(0.98)',
-      right: 'translate3d(10%,0,0) scale(0.98)'
+      down: 'translate3d(0,-16%,0) scale(0.94)',
+      up: 'translate3d(0,16%,0) scale(0.94)',
+      left: 'translate3d(-16%,0,0) scale(0.94)',
+      right: 'translate3d(16%,0,0) scale(0.94)'
     }[dir]
 
-    Object.assign(toEl.style, { transform: enterStart, opacity: '1' })
-
-    // Force reflow (fixes Chrome skipping first frame)
+    Object.assign(toEl.style, { transform: enterStart, opacity: '1', filter: 'blur(2px)' })
     void toEl.offsetHeight
-    // allow styles to apply
     requestAnimationFrame(() => {
-      const duration = 650
+      const duration = 900
       const easing = 'cubic-bezier(0.22, 1, 0.36, 1)'
-      Object.assign(fromEl.style, { transition: `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}` })
-      Object.assign(toEl.style, { transition: `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}` })
+      Object.assign(fromEl.style, { transition: `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}, filter ${Math.floor(duration*0.7)}ms ${easing}` })
+      Object.assign(toEl.style, { transition: `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}, filter ${Math.floor(duration*0.7)}ms ${easing}` })
 
-      // animate
-      Object.assign(fromEl.style, { transform: leaveEnd, opacity: '0.6' })
-      Object.assign(toEl.style, { transform: 'translate3d(0,0,0)', opacity: '1' })
+      // Fade the previous panel out completely to avoid seeing it under the new one
+      Object.assign(fromEl.style, { transform: leaveEnd, opacity: '0', filter: 'blur(8px) saturate(0.9)' })
+      Object.assign(toEl.style, { transform: 'translate3d(0,0,0)', opacity: '1', filter: 'none' })
+
+      // Hide the previous panel halfway through to prevent any residual flashes
+      const hideTimer = setTimeout(() => {
+        fromEl.style.visibility = 'hidden'
+      }, Math.floor(duration * 0.5))
 
       const onDone = (ev) => {
         if (ev && (ev.target !== toEl || ev.propertyName !== 'transform')) return
         toEl.removeEventListener('transitionend', onDone)
-        // hard reset visual state to avoid any lingering opacity/transform
-        Object.assign(fromEl.style, { opacity: '1', transform: 'translate3d(0,0,0)' })
-        Object.assign(toEl.style,   { opacity: '1', transform: 'translate3d(0,0,0)' })
+        clearTimeout(hideTimer)
+        Object.assign(fromEl.style, { opacity: '1', transform: 'translate3d(0,0,0)', filter: 'none' })
+        Object.assign(toEl.style,   { opacity: '1', transform: 'translate3d(0,0,0)', filter: 'none' })
         setCurrent(to)
         applyCurrent(to)
         animatingRef.current = false
       }
       toEl.addEventListener('transitionend', onDone)
-      // Fallback in case transitionend doesn't fire (e.g., tab switch)
-      setTimeout(() => {
-        if (animatingRef.current) onDone()
-      }, duration + 80)
+      setTimeout(() => { if (animatingRef.current) onDone() }, duration + 80)
     })
   }, [applyCurrent, current])
 
-  // Public API via window event so SectionNav can trigger
   useEffect(() => {
     const onGo = (e) => {
       const id = e.detail
@@ -126,21 +122,16 @@ export default function SectionStack({ ids, children }) {
     return () => window.removeEventListener('goSection', onGo)
   }, [ids, goToIndex])
 
-  // Wheel + touch (mobile friendly)
   useEffect(() => {
     const el = document
     let touchStartX = 0, touchStartY = 0
-    const threshold = 24 // px
-    let wheelAccum = 0
-    let wheelTimer = null
+    const threshold = 24
     let lastTrigger = 0
 
     const onWheel = (e) => {
       const now = Date.now()
       if (animatingRef.current || now - lastTrigger < 700) { e.preventDefault(); return }
-      // Trigger on a single deliberate notch/gesture
       const dy = e.deltaY || 0
-      // Normalize tiny trackpad jitters
       if (Math.abs(dy) < 4) { e.preventDefault(); return }
       if (dy > 0) goToIndex(Math.min(current + 1, ids.length - 1))
       else goToIndex(Math.max(0, current - 1))
@@ -158,7 +149,6 @@ export default function SectionStack({ ids, children }) {
       const dx = t.clientX - touchStartX
       const dy = t.clientY - touchStartY
       if (Math.abs(dx) < threshold && Math.abs(dy) < threshold) return
-      // Decide forward/back by vertical intent predominance; order-specific animation handles direction
       if (Math.abs(dy) >= Math.abs(dx)) {
         if (dy < 0) goToIndex(Math.min(current + 1, ids.length - 1))
         else goToIndex(Math.max(0, current - 1))
@@ -168,7 +158,6 @@ export default function SectionStack({ ids, children }) {
       }
     }
 
-    // capture to intercept before inner scrollables handle it
     el.addEventListener('wheel', onWheel, { passive: false, capture: true })
     el.addEventListener('touchstart', onTouchStart, { passive: true })
     el.addEventListener('touchend', onTouchEnd, { passive: true })
@@ -179,7 +168,6 @@ export default function SectionStack({ ids, children }) {
     }
   }, [current, goToIndex, ids.length])
 
-  // Prevent body scroll to avoid in-between content
   useEffect(() => {
     const prev = document.documentElement.style.overflow
     document.documentElement.style.overflow = 'hidden'
@@ -187,13 +175,29 @@ export default function SectionStack({ ids, children }) {
     return () => { document.documentElement.style.overflow = prev; document.body.style.overflow = '' }
   }, [])
 
+  const tintClass = (id) => {
+    switch (id) {
+      case 'hero': return 'tint-hero'
+      case 'portfolio': return 'tint-portfolio'
+      case 'stats': return 'tint-stats'
+      case 'experience': return 'tint-experience'
+      default: return 'tint-hero'
+    }
+  }
+
   return (
     <div className="relative h-dvh overflow-hidden">
+      {/* persistent background under panels */}
+      <div className="bg-stack" aria-hidden>
+        <div className="bg-base" />
+        <div className={`bg-tint ${tintClass(ids[current])}`} />
+      </div>
+
       {Array.isArray(children) ? children.map((child, i) => (
         <div
           key={ids[i] || i}
           ref={el => panelsRef.current[i] = el}
-          className="fp-panel gradient-bg"
+          className="fp-panel"
           aria-hidden={i !== current}
         >
           {child}

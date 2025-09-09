@@ -12,13 +12,13 @@ export default function useVideoAutoPlay(ref) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         const v = e.target
-        if (e.isIntersecting && e.intersectionRatio > 0.6) {
+        if (e.isIntersecting && e.intersectionRatio > 0.2) {
           v.play().catch(() => {})
         } else {
           v.pause()
         }
       })
-    }, { threshold: [0, 0.25, 0.6, 1] })
+    }, { threshold: [0, 0.2, 0.4, 1] })
 
     vids.forEach(v => io.observe(v))
     return () => io.disconnect()

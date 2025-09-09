@@ -1,6 +1,8 @@
 // =========================
 // FILE: src/components/Experience.jsx
 // =========================
+import { Plane, Globe, Wrench } from 'lucide-react'
+
 export default function Experience() {
   const Chip = ({ children, color = 'chip-blue' }) => (
     <span className={`chip ${color}`}>{children}</span>
@@ -17,7 +19,7 @@ export default function Experience() {
         {/* Trusted by */}
         <div className="stat-card">
           <div className="flex items-center gap-2 mb-2">
-            <div className="icon-bubble">✈️</div>
+            <div className="icon-bubble"><Plane className="w-5 h-5" /></div>
             <h3 className="font-semibold">Zaufali mi</h3>
           </div>
           <p className="opacity-80 text-sm">Zaufali mi m.in.:</p>
@@ -34,7 +36,7 @@ export default function Experience() {
         {/* Languages */}
         <div className="stat-card">
           <div className="flex items-center gap-2 mb-2">
-            <div className="icon-bubble">🌐</div>
+            <div className="icon-bubble"><Globe className="w-5 h-5" /></div>
             <h3 className="font-semibold">Języki</h3>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -47,7 +49,7 @@ export default function Experience() {
         {/* Software */}
         <div className="stat-card md:col-span-2">
           <div className="flex items-center gap-2 mb-2">
-            <div className="icon-bubble">🛠️</div>
+            <div className="icon-bubble"><Wrench className="w-5 h-5" /></div>
             <h3 className="font-semibold">Oprogramowanie</h3>
           </div>
           <div className="flex flex-wrap gap-2">
