@@ -20,7 +20,7 @@ export default async function PostPage({ params }) {
         <Prose>
           <h1>{meta.title}</h1>
           {meta.date && <p className="opacity-60 text-sm">{new Date(meta.date).toLocaleDateString('pl-PL')}</p>}
-          <Content />
+          {Content}
         </Prose>
       </main>
     )
