@@ -7,7 +7,7 @@ import ScrollHint from './ScrollHint'
 
 export default function Section({ id, children }) {
   return (
-    <section id={id} className="relative h-full w-full flex items-center justify-center p-6 md:p-10 lg:p-14">
+    <section id={id} className="relative h-full w-full flex items-center justify-center p-6 md:p-10 lg:p-14 pad-safe">
       <div className="glass-strong section-card rounded-3xl w-full max-w-6xl px-5 sm:px-6 py-12 sm:py-14 relative overflow-hidden">
         <div className="section-orbs" aria-hidden></div>
         {children}
