@@ -1,4 +1,3 @@
-
 'use client'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import useVideoAutoPlay from './VideoAutoPlay'
@@ -36,15 +35,16 @@ export default function PhoneCarousel({ disableWheel = false }) {
       else s.classList.add('cf-hidden')
     })
 
-    // no dynamic center offset — transforms ensure centering consistently
-
-    // ensure center video plays, others pause
+    // ensure ALL videos play on mount (mobile fix)
     const slidesEls = el.querySelectorAll('.slide3d')
     slidesEls.forEach((s) => {
       const v = s.querySelector('video')
       if (!v) return
-      if (s.classList.contains('cf-center')) v.play().catch(() => {})
-      else v.pause()
+      v.play().catch(() => {})
+      // Optionally pause non-center on desktop, but always play on mobile
+      if (window.innerWidth > 640) {
+        if (!s.classList.contains('cf-center')) v.pause()
+      }
     })
   }, [index, count])
 
