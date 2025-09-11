@@ -286,6 +286,22 @@ html, body { min-height: 100vh; }
   .badge-pill { height: 40px; padding: 0 .8rem; }
 }
 
+/* ===== Mobile compact tuning (iPhone 14 and similar) ===== */
+@media (max-width: 430px) {
+  html { font-size: 15px; }
+  .section-card { transform: scale(.95); transform-origin: top center; }
+  .badge-pill { height: 36px; padding: 0 .6rem; }
+  .icon-bubble { width: 34px; height: 34px; }
+  .carousel-3d .slide3d .phone-wrap { width: min(64vw, 230px); }
+  .cf-viewport { min-height: clamp(500px, 54vh, 660px); }
+}
+@media (max-width: 390px) {
+  html { font-size: 14px; }
+  .section-card { transform: scale(.92); }
+  .carousel-3d .slide3d .phone-wrap { width: min(66vw, 210px); }
+  .cf-viewport { min-height: clamp(480px, 52vh, 640px); }
+}
+
 /* Decorative section orbs (subtle) */
 .section-orbs { position:absolute; inset:-10px; z-index:0; pointer-events:none; opacity:.7; }
 .section-orbs::before{ content:''; position:absolute; inset:0; background:
