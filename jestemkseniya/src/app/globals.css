@@ -159,6 +159,7 @@ html, body { min-height: 100vh; }
 .phone-edge{ position:absolute; top:0; left:50%; height:100%; width:10px; border-radius:12px; background: linear-gradient(180deg,#6b7280,#1f2937); transform: rotateY(90deg) translateZ(calc(var(--w, 300px) / 2)); filter: drop-shadow(0 6px 16px rgba(0,0,0,.25)); }
 .phone-edge.r{ transform: rotateY(90deg) translateZ(calc(var(--w, 300px) / 2)) translateX(5px); }
 .phone-edge.l{ transform: rotateY(90deg) translateZ(calc(var(--w, 300px) / 2)) translateX(-15px); }
+@media (max-width: 430px){ .phone-edge{ display:none; } }
 
 /* avoid jagged outlines on transforms */
 .phone-video, .phone-overlay, .phone-inner{ backface-visibility: hidden; -webkit-backface-visibility: hidden; will-change: transform; }
