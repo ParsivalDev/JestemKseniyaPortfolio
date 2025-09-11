@@ -6,7 +6,8 @@ export default function PhoneCarousel({ disableWheel = false }) {
   // 3D ring
   const stageRef = useRef(null)
   useVideoAutoPlay(stageRef)
-  const [index, setIndex] = useState(0)
+  const [index, setIndex] = useState(0);
+  const [autoScrolled, setAutoScrolled] = useState(false);
 
   const videos = [
     '/videos/video1.mp4',
@@ -81,6 +82,31 @@ export default function PhoneCarousel({ disableWheel = false }) {
       window.removeEventListener('touchend', onUp)
     }
   }, [next, prev])
+
+  // Auto-scroll forward once when section enters viewport for the first time (only if not at top)
+  useEffect(() => {
+    if (autoScrolled) return;
+    const section = stageRef.current?.closest('section');
+    if (!section) return;
+    let triggered = false;
+    const handler = (entries) => {
+      if (!triggered && entries[0].isIntersecting) {
+        // Only trigger if user has scrolled down (section not at top of viewport)
+        const rect = entries[0].boundingClientRect;
+        if (rect.top < 50) { // section is near top, don't trigger
+          return;
+        }
+        triggered = true;
+        setTimeout(() => {
+          setIndex(1);
+          setAutoScrolled(true);
+        }, 400);
+      }
+    };
+    const observer = new window.IntersectionObserver(handler, { threshold: 0.5 });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [autoScrolled]);
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
