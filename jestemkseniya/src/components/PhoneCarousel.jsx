@@ -41,10 +41,13 @@ export default function PhoneCarousel({ disableWheel = false }) {
     slidesEls.forEach((s) => {
       const v = s.querySelector('video')
       if (!v) return
-      v.play().catch(() => {})
-      // Optionally pause non-center on desktop, but always play on mobile
-      if (window.innerWidth > 640) {
-        if (!s.classList.contains('cf-center')) v.pause()
+      // Always play on mobile (<=640px), never pause
+      if (window.innerWidth <= 640) {
+        v.play().catch(() => {})
+      } else {
+        // On desktop, only center plays
+        if (s.classList.contains('cf-center')) v.play().catch(() => {})
+        else v.pause()
       }
     })
   }, [index, count])
