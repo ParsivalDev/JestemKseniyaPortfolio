@@ -83,14 +83,16 @@ export default function SectionStack({ ids, children }) {
     Object.assign(toEl.style, { transform: enterStart, opacity: '1', filter: 'blur(2px)' })
     void toEl.offsetHeight
     requestAnimationFrame(() => {
-      const duration = 900
+      const isMobile = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 430px)').matches
+      const duration = isMobile ? 650 : 900
       const easing = 'cubic-bezier(0.22, 1, 0.36, 1)'
-      Object.assign(fromEl.style, { transition: `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}, filter ${Math.floor(duration*0.7)}ms ${easing}` })
-      Object.assign(toEl.style, { transition: `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}, filter ${Math.floor(duration*0.7)}ms ${easing}` })
+      const filterTrans = isMobile ? '' : `, filter ${Math.floor(duration*0.7)}ms ${easing}`
+      Object.assign(fromEl.style, { transition: `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}${filterTrans}` })
+      Object.assign(toEl.style, { transition: `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}${filterTrans}` })
 
       // Fade the previous panel out completely to avoid seeing it under the new one
-      Object.assign(fromEl.style, { transform: leaveEnd, opacity: '0', filter: 'blur(8px) saturate(0.9)' })
-      Object.assign(toEl.style, { transform: 'translate3d(0,0,0)', opacity: '1', filter: 'none' })
+      Object.assign(fromEl.style, { transform: leaveEnd, opacity: '0', ...(isMobile ? {} : { filter: 'blur(8px) saturate(0.9)' }) })
+      Object.assign(toEl.style, { transform: 'translate3d(0,0,0)', opacity: '1', ...(isMobile ? {} : { filter: 'none' }) })
 
       // Hide the previous panel halfway through to prevent any residual flashes
       const hideTimer = setTimeout(() => {
@@ -101,8 +103,8 @@ export default function SectionStack({ ids, children }) {
         if (ev && (ev.target !== toEl || ev.propertyName !== 'transform')) return
         toEl.removeEventListener('transitionend', onDone)
         clearTimeout(hideTimer)
-        Object.assign(fromEl.style, { opacity: '1', transform: 'translate3d(0,0,0)', filter: 'none' })
-        Object.assign(toEl.style,   { opacity: '1', transform: 'translate3d(0,0,0)', filter: 'none' })
+        Object.assign(fromEl.style, { opacity: '1', transform: 'translate3d(0,0,0)', filter: '' })
+        Object.assign(toEl.style,   { opacity: '1', transform: 'translate3d(0,0,0)', filter: '' })
         setCurrent(to)
         applyCurrent(to)
         animatingRef.current = false
