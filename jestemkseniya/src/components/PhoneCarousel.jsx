@@ -116,6 +116,7 @@ export default function PhoneCarousel({ disableWheel = false }) {
       <h2 id="portfolio" className="text-2xl md:text-3xl font-extrabold text-center mb-1 text-gradient">
         Tak mogą wyglądać twoje rolki!
       </h2>
+      <span className='font-bold'>Aby zobaczyć video na telefonie - PRZEWIŃ!</span>
 
       <div className="relative w-full max-w-5xl">
         <div className="cf-viewport">
