@@ -26,7 +26,7 @@ function Card({ href, name, handle, followers, brand }) {
 
 export default function SocialCards() {
   return (
-    <div className="grid md:grid-cols-2 gap-4 w-full max-w-5xl">
+    <div className="grid md:grid-cols-2 gap-4 w-full max-w-2xl">
       <Card
         href="https://instagram.com/jestemkseniya"
         name="Instagram"

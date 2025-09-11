@@ -83,7 +83,7 @@ export default function PhoneCarousel({ disableWheel = false }) {
   }, [next, prev])
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4">
       <h2 id="portfolio" className="text-2xl md:text-3xl font-extrabold text-center mb-1 text-gradient">
         Tak mogą wyglądać twoje rolki!
       </h2>
