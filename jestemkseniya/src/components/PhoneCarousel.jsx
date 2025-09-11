@@ -36,17 +36,20 @@ export default function PhoneCarousel({ disableWheel = false }) {
       else s.classList.add('cf-hidden')
     })
 
-    // ensure ALL videos play on mount (mobile fix)
+    // --- FIX: Force video load/play on mobile immediately ---
     const slidesEls = el.querySelectorAll('.slide3d')
-    slidesEls.forEach((s) => {
+    slidesEls.forEach((s, i) => {
       const v = s.querySelector('video')
       if (!v) return
-      // Always play on mobile (<=640px), never pause
+      // On mobile, force load and play all videos immediately
       if (window.innerWidth <= 640) {
+        v.load()
         v.play().catch(() => {})
+        // Pause all except center
+        if (i !== index) v.pause()
       } else {
         // On desktop, only center plays
-        if (s.classList.contains('cf-center')) v.play().catch(() => {})
+        if (i === index) v.play().catch(() => {})
         else v.pause()
       }
     })
