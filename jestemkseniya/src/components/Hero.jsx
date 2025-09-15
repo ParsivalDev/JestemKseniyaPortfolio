@@ -6,7 +6,7 @@ import SocialCards from './SocialCards'
 
 export default function Hero() {
   return (
-    <div className="flex flex-col items-cente justify-centerr">
+    <div className="flex flex-col items-center justify-center">
       <div className="glass max-w-3xl w-full mx-auto px-6 md:px-8 py-8 md:py-12 text-center">
         <div className="mx-auto w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-3 md:ring-4 ring-pink-300 shadow-xl -mt-10 md:-mt-16 mb-4">
           <img src="/images/kseniya.jpg" alt="Kseniya" className="w-full h-full object-cover"/>
