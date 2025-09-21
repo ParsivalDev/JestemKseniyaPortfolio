@@ -16,7 +16,7 @@ export default function Hero() {
         <p className="text-sm md:text-lg opacity-80">Twórczyni UGC • Montażystka wideo • Właścicielka agencji</p>
         {/* Social badges removed — replaced by SocialCards below */}
         <p className="mt-5 md:mt-6 max-w-2xl mx-auto opacity-80 text-sm md:text-base">
-          Pomagam markom rosnąć dzięki autentycznym treściom i przemyślanym strategiom wideo. Stwórzmy razem coś wyjątkowego. PS: jestem wyjątkowo urocza dlatego powstała ta strona
+          Pomagam markom rosnąć dzięki autentycznym treściom i przemyślanym strategiom wideo. Stwórzmy razem coś wyjątkowego. 
         </p>
         <div className="mt-5">
           <SocialCards />
